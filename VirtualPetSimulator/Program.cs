@@ -11,12 +11,12 @@ class VirtualPetSimulator
     {
         string petName;
         string petType = "";
-        bool isValidChoice = false; 
+        bool isValidChoice = false;
 
         // Do-while loop to display menu at least once until a valid choice is made.
         do
         {
-            // Menu to Select Pet
+            // Menu to select the pet
             Console.WriteLine("\nWelcome to Virtual Pet Simulator!");
             Console.WriteLine(); // Add a blank line
             Console.WriteLine("Please select the Type of Pet:");
@@ -27,7 +27,7 @@ class VirtualPetSimulator
             Console.WriteLine(); // Add a blank line
             Console.WriteLine("Please enter your choice:");
 
-            // Main logic for Selection of Pet
+            // Main logic for selecting pet
             string choice = Console.ReadLine();
             Console.WriteLine(); // Adding a blank line
             Console.WriteLine("User Input is: " + choice);
@@ -37,18 +37,18 @@ class VirtualPetSimulator
             {
                 case "1":
                     petType = "Dog";
-                    isValidChoice = true; // Valid choice,exit loop
+                    isValidChoice = true;
                     break;
                 case "2":
                     petType = "Cat";
-                    isValidChoice = true; // Valid choice,exit loop
+                    isValidChoice = true;
                     break;
                 case "3":
                     petType = "Rat";
-                    isValidChoice = true; // Valid choice,exit loop
+                    isValidChoice = true;
                     break;
                 default:
-                    Console.WriteLine("Invalid Choice. Please enter a valid choice.\n");
+                    Console.WriteLine("Invalid choice. Please enter a valid option.\n");
                     break;
             }
 
@@ -58,7 +58,7 @@ class VirtualPetSimulator
         Console.WriteLine("You have selected a " + petType + ".");
         Console.WriteLine(); // Add a blank line
 
-        // Naming the Pet and print welcome message
+        // Naming the pet and printing welcome message
         Console.WriteLine("What would you like to name your " + petType + ":");
         petName = Console.ReadLine();
         Console.WriteLine(); // Add a blank line
@@ -69,7 +69,7 @@ class VirtualPetSimulator
         bool exit = false; // Initializing exit to false
         while (!exit)
         {
-            // Display current status of Pet.
+            // Display current status of the pet
             Console.WriteLine(); // Add a blank line
             Console.WriteLine(petName + "'s status: ");
             Console.WriteLine(); // Add a blank line
@@ -80,13 +80,13 @@ class VirtualPetSimulator
             Console.WriteLine("Health: " + health + "/10 (0 = tired, 10 = healthy)");
             Console.WriteLine(); // Add a blank line
 
-            // Display Actions Menu.
+            // Display actions menu
             Console.WriteLine("Main Menu: ");
             Console.WriteLine(); // Add a blank line
             Console.WriteLine("1. Feed " + petName);
             Console.WriteLine("2. Play with " + petName);
             Console.WriteLine("3. Rest " + petName);
-            Console.WriteLine("4. Check Status for " + petName);
+            Console.WriteLine("4. Check status for " + petName);
             Console.WriteLine("5. Exit.");
             Console.WriteLine(); // Adding a blank line
             Console.WriteLine("Enter your choice:");
@@ -101,11 +101,8 @@ class VirtualPetSimulator
                 if (hunger > 0)
                 {
                     hunger -= 3;
-                    if (hunger < 0) // Setting Default hunger value to 0, if value goes below 0
-                    {
-                        hunger = 0;
-                    }
-                    Console.WriteLine(petName + " has been fed.");
+                    if (hunger < 0) hunger = 0; // Ensure hunger doesn't go below 0
+                    Console.WriteLine(petName + " has eaten.");
                     timeCheck = true;
                 }
                 else
@@ -126,12 +123,9 @@ class VirtualPetSimulator
                 else
                 {
                     happiness += 2;
-                    if (happiness > 10) // Setting Default happiness value to 10, if value goes above 10.
-                    {
-                        happiness = 10;
-                    }
+                    if (happiness > 10) happiness = 10; // Ensure happiness doesn't exceed 10
                     health -= 2;
-                    if (health < 0) health = 0; // Setting Default hunger value to 0, if value goes below 0
+                    if (health < 0) health = 0; // Ensure health doesn't go below 0
                     Console.WriteLine(petName + " had fun playing!");
                     timeCheck = true;
                 }
@@ -141,10 +135,7 @@ class VirtualPetSimulator
                 if (health < 10)
                 {
                     health += 4;
-                    if (health > 10)// Setting Default health value to 10, if value goes above 10.
-                    {
-                        health = 10;
-                    }
+                    if (health > 10) health = 10; // Ensure health doesn't exceed 10
                     Console.WriteLine(petName + " is resting.");
                     timeCheck = true;
                 }
@@ -155,7 +146,7 @@ class VirtualPetSimulator
             }
             else if (actionChoice == "4")
             {
-                // Display Pet's Current Status without any action performed
+                // Display pet's current status without any action performed
                 Console.WriteLine(); // Add a blank line
                 Console.WriteLine(petName + "'s status: ");
                 Console.WriteLine(); // Add a blank line
@@ -173,7 +164,7 @@ class VirtualPetSimulator
                 Console.WriteLine("Goodbye! See you again.");
                 Console.WriteLine(); // Add a blank line
                 exit = true;
-                continue; // Exit immediately without adjusting pet status
+                continue;
             }
             else
             {
@@ -213,14 +204,11 @@ class VirtualPetSimulator
                     Console.WriteLine(); // Add a blank line
                 }
 
-                //Display warning messages in case of neglect
+                // Display warning messages in case of neglect
                 if (hunger == 10 && health > 0)
                 {
                     health -= 2;
-                    if (health < 0) // Setting Default health value to 0, if value goes below 0
-                    {
-                        health = 0;
-                    }
+                    if (health < 0) health = 0;
                     Console.WriteLine(); // Add a blank line
                     Console.WriteLine(petName + "'s health is deteriorating due to hunger.");
                     Console.WriteLine(); // Add a blank line
@@ -229,10 +217,7 @@ class VirtualPetSimulator
                 if (happiness == 0 && health > 0)
                 {
                     health -= 1;
-                    if (health < 0) // Setting Default health value to 0, if value goes below 0
-                    {
-                        health = 0;
-                    }
+                    if (health < 0) health = 0;
                     Console.WriteLine(); // Adding a blank line
                     Console.WriteLine(petName + "'s health is deteriorating due to unhappiness.");
                     Console.WriteLine(); // Add a blank line
@@ -240,5 +225,4 @@ class VirtualPetSimulator
             }
         }
     }
-
 }
