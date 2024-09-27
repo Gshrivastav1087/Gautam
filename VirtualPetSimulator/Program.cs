@@ -101,7 +101,10 @@ class VirtualPetSimulator
                 if (hunger > 0)
                 {
                     hunger -= 3;
-                    if (hunger < 0) hunger = 0; // Setting Default hunger value to 0, if value goes below 0
+                    if (hunger < 0) // Setting Default hunger value to 0, if value goes below 0
+                    {
+                        hunger = 0;
+                    }
                     Console.WriteLine(petName + " has been fed.");
                     timeCheck = true;
                 }
@@ -123,7 +126,10 @@ class VirtualPetSimulator
                 else
                 {
                     happiness += 2;
-                    if (happiness > 10) happiness = 10; // Setting Default happiness value to 10, if value goes above 10.
+                    if (happiness > 10) // Setting Default happiness value to 10, if value goes above 10.
+                    {
+                        happiness = 10;
+                    }
                     health -= 2;
                     if (health < 0) health = 0; // Setting Default hunger value to 0, if value goes below 0
                     Console.WriteLine(petName + " had fun playing!");
@@ -135,7 +141,10 @@ class VirtualPetSimulator
                 if (health < 10)
                 {
                     health += 4;
-                    if (health > 10) health = 10; // Setting Default health value to 10, if value goes above 10.
+                    if (health > 10)// Setting Default health value to 10, if value goes above 10.
+                    {
+                        health = 10;
+                    }
                     Console.WriteLine(petName + " is resting.");
                     timeCheck = true;
                 }
@@ -208,19 +217,25 @@ class VirtualPetSimulator
                 if (hunger == 10 && health > 0)
                 {
                     health -= 2;
-                    if (health < 0) health = 0; // Ensure health doesn't go below 0
-                    Console.WriteLine(); // Adding a blank line
+                    if (health < 0) // Setting Default health value to 0, if value goes below 0
+                    {
+                        health = 0;
+                    }
+                    Console.WriteLine(); // Add a blank line
                     Console.WriteLine(petName + "'s health is deteriorating due to hunger.");
-                    Console.WriteLine(); // Adding a blank line
+                    Console.WriteLine(); // Add a blank line
                 }
 
                 if (happiness == 0 && health > 0)
                 {
                     health -= 1;
-                    if (health < 0) health = 0; // Ensure health doesn't go below 0
+                    if (health < 0) // Setting Default health value to 0, if value goes below 0
+                    {
+                        health = 0;
+                    }
                     Console.WriteLine(); // Adding a blank line
                     Console.WriteLine(petName + "'s health is deteriorating due to unhappiness.");
-                    Console.WriteLine(); // Adding a blank line
+                    Console.WriteLine(); // Add a blank line
                 }
             }
         }
