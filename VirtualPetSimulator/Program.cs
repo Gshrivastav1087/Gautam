@@ -101,6 +101,7 @@ class VirtualPetSimulator
                 if (hunger > 0)
                 {
                     hunger -= 3;
+                    health += 1;
                     if (hunger < 0) hunger = 0; // Ensure hunger doesn't go below 0
                     Console.WriteLine(petName + " has eaten.");
                     timeCheck = true;
@@ -136,6 +137,7 @@ class VirtualPetSimulator
                 {
                     health += 4;
                     if (health > 10) health = 10; // Ensure health doesn't exceed 10
+                    happiness -= 1;
                     Console.WriteLine(petName + " is resting.");
                     timeCheck = true;
                 }
