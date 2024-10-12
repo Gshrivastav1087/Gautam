@@ -1,78 +1,92 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// Account class to represent a bank account
 public class Account
 {
-    // Properties for the account details
-    public int AccountNumber { get; }
+    public int AccountNumber { get; set; }
     public double Balance { get; private set; }
-    public double InterestRate { get; }
-    public string AccountHolderName { get; }
+    public string AccountHolderName { get; set; }
+    public double InterestRate { get; set; } =
+        0.03;  // setting the Default value to 3%
+    public List<string> Transactions { get; private set; } = new List<string>();
 
-    // A list to hold all transactions made on the account
-    private readonly List<string> transactions;
+    // Holding the value of the last interest calculation timestamp.
+    private DateTime lastInterestCalculation;
 
-    // Constructor to initialize account details
-    public Account(int accountNumber, double initialBalance, double interestRate, string accountHolderName)
+    public Account(int accountNumber, double initialBalance,
+                   string accountHolderName, double interestRate)
     {
         AccountNumber = accountNumber;
-        Balance = initialBalance;
+        // Check if the initial balance is non-negative, otherwise throw an
+        // exception
+        Balance = initialBalance >= 0 ? initialBalance
+                                      : throw new ArgumentException(
+                                            "Initial balance cannot be negative.");
         InterestRate = interestRate;
         AccountHolderName = accountHolderName;
-        transactions = new List<string> { $"Account created with initial balance: ${initialBalance:F2}" };
+        Transactions.Add(
+            $"Account created with balance: {Balance} and interest rate: {InterestRate * 100}%");
+        lastInterestCalculation = DateTime.Now;  // Initialize with current time
     }
 
-    // Method to display the current balance
-    public void DisplayBalance() => Console.WriteLine($"Current Balance: ${Balance:F2}");
-
-    // Method to deposit money into the account
     public void Deposit(double amount)
     {
-        if (amount <= 0)
+        if (amount > 0)
         {
-            Console.WriteLine("You need to deposit a positive amount.");
-            return;
+            Balance += amount;
+            Transactions.Add($"Deposited: {amount.ToString("C")}");
         }
-
-        Balance += amount;
-        transactions.Add($"Deposited: ${amount:F2}");
-        Console.WriteLine("Deposit successful!");
+        else
+        {
+            throw new ArgumentException("Deposit amount must be greater than zero.");
+        }
     }
 
-    // Method to withdraw money from the account
-    public bool Withdraw(double amount)
+    public void Withdraw(double amount)
     {
-        if (amount <= 0)
+        if (amount > 0 && Balance >= amount)
         {
-            Console.WriteLine("You must enter a positive amount to withdraw.");
-            return false;
+            Balance -= amount;
+            Transactions.Add($"Withdrew: {amount.ToString("C")}");
         }
-        if (amount > Balance)
+        else
         {
-            Console.WriteLine("Oops! You don't have enough money.");
-            return false;
+            throw new ArgumentException(
+                "Invalid withdrawal amount or insufficient balance.");
         }
-
-        Balance -= amount;
-        transactions.Add($"Withdrew: ${amount:F2}");
-        Console.WriteLine("Withdrawal successful!");
-        return true;
     }
 
-    // Method to display transaction history
     public void DisplayTransactions()
     {
-        if (transactions.Count == 0)
-        {
-            Console.WriteLine("No transactions made yet.");
-            return;
-        }
-
-        Console.WriteLine("Transaction History:");
-        foreach (var transaction in transactions)
+        Console.WriteLine("Transaction History");
+        foreach (var transaction in Transactions)
         {
             Console.WriteLine(transaction);
+        }
+    }
+
+    public void CalculateInterest()
+    {
+        // Calculate the time span since the last interest calculation using inbuilt
+        // class TimeSpan
+        TimeSpan timeSinceLastCalculation = DateTime.Now - lastInterestCalculation;
+
+        // Check if 10 seconds have passed
+        if (timeSinceLastCalculation.TotalSeconds >= 10)
+        {
+            // Calculate the number of months based on elapsed time (10 seconds = 1
+            // month)
+            double monthsElapsed = timeSinceLastCalculation.TotalSeconds / 10;
+
+            // Calculate the interest to be added in monthly interest
+            double interest = Balance * InterestRate * monthsElapsed;
+
+            // Update the balance with the calculated interest
+            Balance += interest;
+            Transactions.Add($"Interest applied: {interest.ToString("C")}");
+
+            // Update the last interest calculation time
+            lastInterestCalculation = DateTime.Now;
         }
     }
 }

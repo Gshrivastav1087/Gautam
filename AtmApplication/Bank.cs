@@ -1,32 +1,36 @@
 ﻿using System.Collections.Generic;
 
-// Bank class to manage multiple accounts
 public class Bank
 {
-    private readonly Dictionary<int, Account> accounts; // Use dictionary for faster lookups
+    // Defining dynamic size List to store accounts to add more accounts when new
+    // accounts are created.
+    private List<Account> accounts = new List<Account>();
 
     public Bank()
     {
-        accounts = new Dictionary<int, Account>();
-        InitializeDefaultAccounts();
-    }
-
-    // Method to create some default accounts
-    private void InitializeDefaultAccounts()
-    {
-        for (int i = 100; i < 110; i++)
+        // Create and initialize 10 default accounts with account numbers from 100
+        // to 109. Each account starts with a balance of 100 and an interest rate of
+        // 3%.
+        for (int i = 100; i <= 109; i++)
         {
-            accounts[i] = new Account(i, 100.00, 3.0, $"Account Holder {i}");
+            accounts.Add(new Account(i, 100, $"AccountHolder{i}", 0.03));
         }
     }
 
-    // Method to add a new account
-    public void AddAccount(Account account) => accounts[account.AccountNumber] = account;
-
-    // Method to retrieve an account by account number
     public Account RetrieveAccount(int accountNumber)
     {
-        accounts.TryGetValue(accountNumber, out var account); // Use TryGetValue for efficiency
-        return account; // Return null if account not found
+        foreach (var account in accounts)
+        {
+            if (account.AccountNumber == accountNumber)
+            {
+                return account;
+            }
+        }
+        return null;  // Account not found
+    }
+
+    public void AddAccount(Account account)
+    {
+        accounts.Add(account);
     }
 }
